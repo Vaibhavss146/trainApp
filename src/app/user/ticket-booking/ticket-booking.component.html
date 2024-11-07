@@ -1,0 +1,118 @@
+<nav class="navbar">
+    <!-- <div class="icon">Car<b style="color:red">Re</b>nt<b style="color:red">#</b></div> -->
+    <div class="icon">Search Train</div>
+    <form class="d-flex" role="search">
+      <label class="form-label me-2 mt-1">From</label>
+        <input class="form-control me-2" type="text" #departureName name="search" placeholder="" aria-label="Search" >
+        <label class="form-label me-2 mt-1">To</label>
+        <input class="form-control me-2" type="text" #arrivalName name="search" placeholder="" aria-label="Search" >
+        <button class="btn btn-outline-success" type="button" (click)="searchTrain(departureName.value,arrivalName.value)">Search</button>
+      </form>
+    <ol> 
+        <li><a routerLink="/home">Back To Home</a></li>  
+    </ol>
+  </nav>
+
+  <div class="conatiner mt-4" *ngIf="showfilteredTrainData">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Train No</th>
+                <th>Train Name</th>
+                <th>Departure Station Name</th>
+                <th>Arrival Station Name</th>
+                <th>Departure Time</th>
+                <th>Arrival Time</th>
+                <th>total Fare</th>
+                <th>Select</th>
+            </tr>
+        </thead>
+   <tbody>
+            <tr *ngFor="let item of filteredTrains">
+             <td>{{item.trainNo}}</td>
+             <td>{{item.trainName}}</td>
+             <td>{{item.departureStationName}}</td>
+             <td>{{item.arrivalStationName}}</td>
+             <td>{{item.departureTime}}</td>
+             <td>{{item.arrivalTime}}</td>
+             <td>{{item.totalFare}}</td>
+             <td>
+                <button class="btn btn-primary btn-sm border-0">Book Ticket</button>
+             </td>
+            </tr>
+   </tbody>
+    </table>
+  </div>
+
+  <div class="container-fluid mt-5">
+    <h2 class="text-center mb-4">Train Ticket Booking Form</h2>
+  
+    <div class="row" >
+      <div class="col-md-6">
+        <form>
+          <!-- Personal Information -->
+    
+          <div class="row"> 
+             <!-- Date of Journey -->
+          <div class="col-md-6 mb-3">
+            <label for="journeyDate" class="form-label">Date of Journey</label>
+            <input type="date" class="form-control" name="journeyDate">
+          </div>
+    
+          <div class=" col-md-6 mb-3">
+            <label for="fullName" class="form-label">Full Name</label>
+            <input type="text" class="form-control" name="fullName" placeholder="Enter your full name">
+          </div>
+          </div> 
+  
+          <div class="row">
+            <!-- Train Class Selection -->
+            <div class=" col-md-6 mb-3">
+                <label for="trainClass" class="form-label fw-medium">Train Class</label>
+                <select class="form-select" name="trainClass" >
+                  <option selected disabled>Select train class</option>
+                  <option value="first">First Class</option>
+                  <option value="second">Second Class</option>
+                  <option value="sleeper">Sleeper Class</option>
+                  <option value="ac">AC Class</option>
+                </select>
+              </div>
+    
+         <div class=" col-6 mb-3">
+           <label for="fullName" class="form-label">Enter Age</label>
+           <input type="text" class="form-control" name="age" required maxLength="2" placeholder="Enter your age">
+         </div>
+    
+         </div> 
+    
+          <!-- Departure and Arrival Stations -->
+          <div class="row mb-3">
+            <div class="col-md-6"> 
+              <label for="departureStation" class="form-label">Departure Station</label>
+              <input type="text" class="form-control" name="departureStation" placeholder="Enter departure station">
+            </div>
+            <div class="col-md-6">
+              <label for="arrivalStation" class="form-label">Arrival Station</label>
+              <input type="text" class="form-control" name="arrivalStation" placeholder="Enter arrival station" >
+            </div>
+          </div>
+    
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="departureStation" class="form-label">Total Fare</label>
+              <input type="text" class="form-control" name="totalFare"  id="totalFare" >
+            </div>
+      
+          </div>
+    
+          <!-- Submit Button -->
+           <div class="row">
+            <div class="col-6">
+                 <button class="btn btn-primary mx-3" type="submit">Proceed to Pay</button>
+            </div>
+           </div>
+        </form>
+      </div> 
+    </div> 
+   
+  </div>

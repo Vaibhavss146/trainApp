@@ -1,0 +1,18 @@
+<nav class="navbar">
+    <div class="icon">Indi<b style="color:red">an</b>Rail<b style="color:red">#</b></div>
+  
+    <form class="d-flex" role="search">
+        <input class="form-control me-2" type="text" name="search" placeholder="" aria-label="Search" >
+        <button class="btn btn-outline-success" type="submit">Search</button>
+      </form>
+    <ol> 
+        <li><a>Home</a></li> 
+        <li><a>Order Food</a></li>
+        <li><a routerLink="/ticket_booking">Book Ticket</a></li>
+        <li  *ngIf="hideuserName"><a>Login</a></li>
+       <li *ngIf="showuserName"><a>{{fullName}}</a></li> 
+        <li><a routerLink="/login">Logout</a></li>
+    </ol>
+  </nav>
+  
+  

@@ -1,0 +1,184 @@
+<router-outlet></router-outlet>
+
+<section class="vh-100">
+    <div class="container-fluid h-custom">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-md-9 col-lg-6 col-xl-5">
+          <img src="../../../assets/Indian_rai.avif"
+            class="img-fluid" alt="Sample image">
+        </div>
+        <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+          <form (ngSubmit)="onSubmit(loginForm.value)" #loginForm="ngForm">
+            <h2 class="fw-bold mb-2 text-uppercase text-center">Login</h2>
+              <p class="text-dark-50 mb-5 text-center">Please enter your login and password!</p>
+            <!-- Email input -->
+            <div data-mdb-input-init class="form-outline mb-4">
+              <input type="email" id="form3Example3" class="form-control form-control-lg" name="email" [(ngModel)]= "user.email" #email="ngModel" required
+                placeholder="Enter a valid email address" />
+              <label class="form-label" for="form3Example3">Email address</label>
+            </div>
+            <div *ngIf="email.invalid && email.touched" class="text-danger">
+                Email is required and must be valid.
+              </div>
+            <!-- Password input -->
+            <div data-mdb-input-init class="form-outline mb-3">
+              <input type="password" id="form3Example4" name="password" class="form-control form-control-lg" [(ngModel)]="user.password" #password="ngModel" required
+                placeholder="Enter password" />
+              <label class="form-label" for="form3Example4">Password</label>
+            </div>
+            <div *ngIf="password.invalid && password.touched" class="text-danger">
+                Password is required and must be valid.
+              </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <!-- Checkbox -->
+              <div class="form-check mb-0">
+                <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                <label class="form-check-label" for="form2Example3">
+                  Remember me
+                </label>
+              </div>
+              <a href="#!" class="text-body">Forgot password?</a>
+            </div>
+  
+            <div class="text-center text-lg-start mt-4 pt-2">
+              <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-lg"
+                style="padding-left: 2.5rem; padding-right: 2.5rem;" [disabled]="loginForm.invalid">Login</button>
+              <p class="small fw-bold mt-2 pt-1 mb-0">Don't have an account? <a href="#!"
+                  class="link-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Register</a></p>
+            </div>
+  
+          </form>
+        </div>
+      </div>
+    </div>
+    <div
+      class="d-flex flex-column flex-md-row text-center text-md-start justify-content-between py-4 px-4 px-xl-5 bg-primary">
+      <!-- Copyright -->
+      <div class="text-white mb-3 mb-md-0">
+        Copyright © 2020. All rights reserved.
+      </div>
+      <!-- Copyright -->
+  
+      <!-- Right -->
+      <div>
+        <a href="#!" class="text-white me-4">
+          <i class="fab fa-facebook-f"></i>
+        </a>
+        <a href="#!" class="text-white me-4">
+          <i class="fab fa-twitter"></i>
+        </a>
+        <a href="#!" class="text-white me-4">
+          <i class="fab fa-google"></i>
+        </a>
+        <a href="#!" class="text-white">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </div>
+      <!-- Right -->
+    </div>
+  </section>
+
+
+  <!-- Registration Form -->
+  
+  <!-- Modal -->
+  <div class="modal fade mt-4" id="exampleModal"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Register Here</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+        <form [formGroup]="registrationForm">
+            <div class="">
+                <label for="" class="form-label">Full Name</label>
+                <input type="text" name="fName" class="form-control" formControlName="fullName" [class.is-invalid]="form['fullName'].invalid && form['fullName'].touched">
+            </div>
+            <div class="">
+                <label for="" class="form-label">Mobile Number</label>
+                <input type="text" name="mNo" class="form-control" formControlName="mobileNumber" [class.is-invalid]="form['mobileNumber'].invalid && form['mobileNumber'].touched">
+            </div>
+            <div class="alert alert-danger" *ngIf="form['mobileNumber'].invalid && form['mobileNumber'].touched"> 
+              <div *ngIf="form['mobileNumber'].errors && form['mobileNumber'].errors['required']">
+              Mobile number is required
+              </div>
+              <div *ngIf="form['mobileNumber'].errors && form['mobileNumber'].errors['minlength']">
+              Mobile number should be of 10 digit
+                </div>
+                <div *ngIf="form['mobileNumber'].errors && form['mobileNumber'].errors['maxlength']">
+                  Mobile number should be of 10 digit
+                  </div>
+            </div>
+            <div class="">
+                <label for="" class="form-label">Adhar Number</label>
+                <input type="text" name="adhNo" class="form-control" formControlName="adharnumber" [class.is-invalid]="form['adharnumber'].invalid && form['adharnumber'].touched">
+            </div>
+            <div class="alert alert-danger" *ngIf="form['adharnumber'].invalid && form['adharnumber'].touched"> 
+              <div *ngIf="form['adharnumber'].errors && form['adharnumber'].errors['required']">
+                Adhar number is required
+              </div>
+              <div *ngIf="form['adharnumber'].errors && form['adharnumber'].errors['minlength']">
+              Adhar number should be of 12 digit
+                </div>
+                <div *ngIf="form['adharnumber'].errors && form['adharnumber'].errors['maxlength']">
+                  Adhar number should be of 12 digit
+                  </div>
+            </div>
+            <div class="">
+                <label for="" class="form-label">Email</label>
+                <input type="text" name="email" class="form-control" formControlName="email" [class.is-invalid]="form['email'].invalid && form['email'].touched">
+            </div>
+            <div class="alert alert-danger" *ngIf="form['email'].invalid && form['email'].touched"> 
+              <div *ngIf="form['email'].errors && form['email'].errors['required']">
+               Email is required
+              </div>
+              <div *ngIf="form['email'].errors && form['email'].errors['pattern']">
+               Enter valid email
+              </div>
+              
+            </div>
+         <div class="row mt-1">
+            <div class="col-md-6">
+              <div class="">
+                <label for="" class="form-label">Password</label>
+                <input type="text" name="pass" class="form-control" formControlName="password" [class.is-invalid]="form['password'].invalid && form['password'].touched">
+            </div>
+            </div>
+            <div class="col-md-6">
+              <div class="">
+                <label for="" class="form-label">Confirm Password</label>
+                <input type="text" name="conpass" class="form-control" formControlName="conPassword" [class.is-invalid]="form['conPassword'].invalid && form['conPassword'].touched">
+            </div>
+            </div>
+         </div>
+            <div class="">
+                <label for="" class="form-label">Address</label>
+                <input type="address" name="adhNo" class="form-control" formControlName="address" [class.is-invalid]="form['address'].invalid && form['address'].touched">
+            </div>
+            <div class="row mt-2">
+             <div class="col-md-4">
+                <label for="" class="form-label">State</label>
+                <input type="text" name="state" class="form-control" formControlName="state" [class.is-invalid]="form['state'].invalid && form['state'].touched">
+             </div>
+             <div class="col-md-4">
+                <label for="" class="form-label">City</label>
+                <input type="text" name="city" class="form-control" formControlName="city" [class.is-invalid]="form['city'].invalid && form['city'].touched">
+             </div>
+             <div class="col-md-4">
+                <label for="" class="form-label">District</label>
+                <input type="text" name="dist" class="form-control" formControlName="district" [class.is-invalid]="form['district'].invalid && form['district'].touched">
+             </div>
+            </div>
+          
+        </form>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" id="cancel" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" [class.disabled]="registrationForm.invalid" (click)="submitRegistrationData()">Register</button>
+        </div>
+      </div>
+    </div>
+  </div>
