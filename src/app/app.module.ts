@@ -9,7 +9,8 @@ import { PageNotFoundComponent } from './user/page-not-found/page-not-found.comp
 import { TicketBookingComponent } from './user/ticket-booking/ticket-booking.component';
 import { LoginComponent } from './user/login/login.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule} from '@angular/common/http'
+import { HttpClientModule} from '@angular/common/http';
+import { PaymentDetailsComponent } from './user/payment-details/payment-details.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -17,7 +18,8 @@ import { HttpClientModule} from '@angular/common/http'
     HomeComponent,
     PageNotFoundComponent,
     TicketBookingComponent,
-    LoginComponent
+    LoginComponent,
+    PaymentDetailsComponent
   ],
   imports: [
     BrowserModule,

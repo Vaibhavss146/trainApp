@@ -2648,5 +2648,17 @@
       "mobileNumber": "1234567890",
       "otp": "654321"
     }
+  ],
+  "bookingDetails": [
+    {
+      "id": "8c72",
+      "fullName": "Shital Sawarkar",
+      "age": 30,
+      "trainClass": "First Class",
+      "arrivalStationName": "Banglore",
+      "dateOfjourney": "12/10/2024",
+      "departureStationName": "New Delhi",
+      "totalFare": 1245
+    }
   ]
 }

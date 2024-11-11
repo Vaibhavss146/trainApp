@@ -10,6 +10,8 @@ export class TrainService {
 baseUrl = "http://localhost:3000/";
 private isAuthenticated = false; 
 loginDetails = new BehaviorSubject<any>('')
+selectedTraindetails = new BehaviorSubject<any>('')
+passengerDetailsforPyamnet = new BehaviorSubject<any>('')
 httpHeader:HttpHeaders = new HttpHeaders().set('content-type','application/json');
 
   constructor(private http:HttpClient) { }
@@ -49,5 +51,26 @@ httpHeader:HttpHeaders = new HttpHeaders().set('content-type','application/json'
 
   isLoggedin(){
     return this.isAuthenticated
+  }
+
+  submitpassengerDetails(endPoint:any,requestbody:UserRegistration){
+    let url = this.baseUrl + endPoint;
+    return this.http.post(url,requestbody,{'headers':this.httpHeader}).pipe(catchError(this.handleError));
+  }
+
+  generateOTP(){
+    const otp = Math.floor(1000 + Math.random() * 9000);
+     return otp.toString(); 
+  }
+
+  sendOtp(mobileNumber: string, otp: string): Observable<any> {
+    const otpDetails = {
+      mobileNumber: mobileNumber,
+      otp: otp
+    };
+    return this.http.post(this.baseUrl + 'otp', otpDetails);
+  }
+  verifyOtp(mobileNumber: string, otp: string): Observable<any> {
+    return this.http.get(`${this.baseUrl + 'otp'}?mobileNumber=${mobileNumber}&otp=${otp}`);
   }
 }

@@ -26,3 +26,13 @@ export interface allTraions{
     departureTime: string,
     totalFare: number,
 }
+
+export interface moreBooking {
+    fullName: '',
+    age: '',
+    trainClass: '',
+    arrivalStation: '',
+    dateOfjourney: '',
+    departureStation: '',
+    totalFare: ''
+  };

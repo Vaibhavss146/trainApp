@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit {
         this.loginData = res;
         this.trainservice.loginDetails.next(this.loginData)
         console.log("loginData res",this.loginData)
+        this.trainservice.loginDetails.next(this.loginData)
         alert('Login successful');
         this.router.navigate(['/home']);
       } else {

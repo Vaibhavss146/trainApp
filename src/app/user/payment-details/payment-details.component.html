@@ -1,0 +1,209 @@
+<section class="payment-form dark" *ngIf="showPaymentDetails">
+    <div class="container">
+        <div class="block-heading">
+          <h2>Payment Details</h2>
+          <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc quam urna, dignissim nec auctor in, mattis vitae leo.</p> -->
+        </div>
+        <form [formGroup]="paymentDetailsForm">
+          <div class="products">
+            <h3 class="title">Checkout</h3>
+            <div class="item">
+              <span class="price">₹{{totalFare}}</span>
+              <p class="item-name">Ampont to  Pay</p> 
+            </div>
+            <div class="item">
+              <span class="price">₹{{gstAmount}}</span>
+              <p class="item-name">GST</p>
+              <p class="item-description">18% of total amount</p>
+            </div>
+            <div class="total">Total<span class="price">₹{{totalamounttoPay}}</span></div>
+          </div>
+          <div class="card-details">
+            <h3 class="title">Enter Card Details</h3>
+            <div class="row">
+              <div class="form-group col-sm-7">
+                <label for="card-holder">Card Holder</label>
+                <input id="card-holder" type="text" class="form-control" placeholder="Card Holder" aria-label="Card Holder" aria-describedby="basic-addon1" formControlName="cardHolder"
+                [class.is-invalid]="form['cardHolder'].invalid && form['cardHolder'].touched">
+              </div>
+              <div class="alert alert-danger" *ngIf="form['cardHolder'].invalid && form['cardHolder'].touched"> 
+                <div *ngIf="form['cardHolder'].errors && form['cardHolder'].errors['required']">
+                   Enter card holder name
+                </div>
+                <!-- <div *ngIf="form['mobileNumber'].errors && form['mobileNumber'].errors['minlength']">
+                Mobile number should be of 10 digit
+                  </div>
+                  <div *ngIf="form['mobileNumber'].errors && form['mobileNumber'].errors['maxlength']">
+                    Mobile number should be of 10 digit
+                    </div> -->
+              </div>
+              <div class="form-group col-sm-5">
+                <label for="">Expiration Date</label>
+                <div class="input-group expiration-date">
+                  <input type="text" class="form-control" placeholder="MM" aria-label="MM" aria-describedby="basic-addon1" maxlength="2" minlength="2" formControlName="expiryDateMM"
+                  [class.is-invalid]="form['expiryDateMM'].invalid && form['expiryDateMM'].touched">
+                  <span class="date-separator ps-2">/</span>
+                  <input type="text" class="form-control" placeholder="YY" aria-label="YY" aria-describedby="basic-addon1" maxlength="2" minlength="2"  formControlName="expiryDateYY"
+                  [class.is-invalid]="form['expiryDateYY'].invalid && form['expiryDateYY'].touched">
+                </div>
+  
+              </div>
+              <div class="form-group col-sm-8">
+                <label for="card-number">Card Number</label>
+                <input id="card-number" type="text" class="form-control" placeholder="Card Number" aria-label="Card Holder" maxlength="12" minlength="12" aria-describedby="basic-addon1" formControlName="cardHolderName"
+                [class.is-invalid]="form['cardHolderName'].invalid && form['cardHolderName'].touched">
+              </div>
+              <div class="form-group col-sm-4">
+                <label for="cvc">CVC</label>
+                <input id="cvc" type="text" class="form-control" placeholder="CVC" aria-label="Card Holder" maxlength="3" minlength="3" aria-describedby="basic-addon1" formControlName="cardCVV"
+                [class.is-invalid]="form['cardCVV'].invalid && form['cardCVV'].touched">
+              </div>
+              <div class="form-group col-sm-12">
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary btn-md" [class.disabled]="paymentDetailsForm.invalid" (click)="proccedForPayment(paymentDetailsForm.value)">Proceed</button>
+                    </div>
+                    <div class="col-md-2">
+                        <button type="button" class="btn btn-primary btn-md" routerLink="/ticket_booking">Back</button>
+                    </div>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+</section>
+
+
+<!-- OTP Model -->
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;" *ngIf="showotpdialogBox">
+  <div class="card p-3 w-100" style="max-width: 400px;">
+    <h5 class="m-0 text-center text-dark">Verify OTP</h5>
+    <span class="mobile-text mt-2 d-block text-center">Enter the code received on registered mobile number 
+      <b class="text-danger">+91 {{mobileNumber}}</b>
+    </span>
+
+
+    <div class="d-flex justify-content-center mt-4">
+      <div class="d-flex flex-row justify-content-center gap-2" style="width: 100%;">
+        <input type="text" class="form-control text-center" maxlength="1" [(ngModel)]="digitArray[0]" style="max-width: 50px;">
+        <input type="text" class="form-control text-center" maxlength="1" [(ngModel)]="digitArray[1]" style="max-width: 50px;">
+        <input type="text" class="form-control text-center" maxlength="1" [(ngModel)]="digitArray[2]" style="max-width: 50px;">
+        <input type="text" class="form-control text-center" maxlength="1" [(ngModel)]="digitArray[3]" style="max-width: 50px;">
+      </div>
+    </div>
+
+   
+    <div class="text-center">
+      <button class="btn btn-primary btn-md mt-3 w-100" (click)="verifyOtp()">Verify</button>
+      <p *ngIf="otpError" class="text-danger mt-2">{{ otpError }}</p>
+    </div>
+
+
+    <div class="text-center mt-3">
+      <span class="d-block mobile-text">Didn't receive the code?</span>
+      <span class="font-weight-bold text-danger cursor">Resend</span>
+    </div>
+  </div>
+</div>
+
+
+<!-- Final Boooking Details -->
+<div class="container mt-5" *ngIf="showbookingDetails">
+  <!-- Success Message -->
+  <div class="alert alert-success text-center" role="alert">
+    <h4 class="alert-heading">Payment Successful!</h4>
+    <p>Your train ticket has been booked successfully. Below are your booking details.</p>
+  </div>
+
+  <!-- Booking Details Card -->
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Booking Details</h5>
+    </div>
+    <div class="card-body" *ngFor="let item of passengerDetails"> 
+      <!-- Train Details -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <h6 class="mb-0">Train Name:</h6>
+          <p class="text-muted">{{trainName}}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="mb-0">Train Number:</h6>
+          <p class="text-muted">{{trainNumber}}</p>
+        </div>
+      </div>
+
+      <!-- Passenger Details -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <h6 class="mb-0">Passenger Name:</h6>
+          <p class="text-muted">{{item.fullName}}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="mb-0">Class:</h6>
+          <p class="text-muted">{{item.trainClass}}</p>
+        </div>
+      </div>
+
+      <!-- Journey Details -->
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <h6 class="mb-0">Departure Station:</h6>
+          <p class="text-muted">{{item.departureStation}}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="mb-0">Arrival Station:</h6>
+          <p class="text-muted">{{item.arrivalStation}}</p>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col-md-6">
+          <h6 class="mb-0">Departure Date & Time:</h6>
+          <p class="text-muted">{{item.journeyDate}}</p>
+        </div>
+        <div class="col-md-6">
+          <h6 class="mb-0">Arrival Date & Time:</h6>
+          <p class="text-muted"></p>
+        </div>
+      </div>
+</div>
+
+<div class="card-body">
+      <!-- Fare Details -->
+      <h6 class="mb-3">Fare Breakdown:</h6>
+      <table class="table table-bordered">
+        <thead class="table-light">
+          <tr>
+            <th>Item</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Base Fare</td>
+            <td>₹{{totalFare}}</td>
+          </tr>
+          <tr>
+            <td>Service Charge</td>
+            <td>₹10</td>
+          </tr>
+          <tr>
+            <td>Tax</td>
+            <td>{{gstAmount}} (18% of Base Fare)</td>
+          </tr>
+          <tr>
+            <td><strong>Total</strong></td>
+            <td><strong>{{amount}}</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card-footer text-center">
+      <button class="btn btn-success" [routerLink]="'/home'">Go to Home</button>
+      <button class="btn btn-primary mx-3">Download Ticket</button>
+    </div>
+  </div>
+</div>

@@ -37,82 +37,180 @@
              <td>{{item.arrivalTime}}</td>
              <td>{{item.totalFare}}</td>
              <td>
-                <button class="btn btn-primary btn-sm border-0">Book Ticket</button>
+                <button class="btn btn-primary btn-sm border-0" (click)="bookTicket(item.id)">Book Ticket</button>
              </td>
             </tr>
    </tbody>
     </table>
   </div>
 
-  <div class="container-fluid mt-5">
+  <div class="container-fluid mt-5" *ngIf="showpassengerdetailsForm">
     <h2 class="text-center mb-4">Train Ticket Booking Form</h2>
   
     <div class="row" >
       <div class="col-md-6">
-        <form>
-          <!-- Personal Information -->
+        <form #bookingForm="ngForm" (ngSubmit)="onSubmit(bookingForm.value)">
     
           <div class="row"> 
-             <!-- Date of Journey -->
           <div class="col-md-6 mb-3">
-            <label for="journeyDate" class="form-label">Date of Journey</label>
-            <input type="date" class="form-control" name="journeyDate">
+            <label for="journeyDate" class="form-label text-dark">Date of Journey</label>
+            <input type="date" class="form-control"  name="journeyDate" [min]="minDate" [max]="maxDate" required [(ngModel)]="booking.dateOfjourney">
           </div>
     
           <div class=" col-md-6 mb-3">
-            <label for="fullName" class="form-label">Full Name</label>
-            <input type="text" class="form-control" name="fullName" placeholder="Enter your full name">
+            <label for="fullName" class="form-label text-dark">Full Name</label>
+            <input type="text" class="form-control" name="fullName" placeholder="Enter your full name" required [(ngModel)]="booking.fullName">
           </div>
           </div> 
   
           <div class="row">
-            <!-- Train Class Selection -->
             <div class=" col-md-6 mb-3">
-                <label for="trainClass" class="form-label fw-medium">Train Class</label>
-                <select class="form-select" name="trainClass" >
+                <label for="trainClass" class="form-label text-dark">Train Class</label>
+                <select class="form-select text-dark" name="trainClass" required [(ngModel)]="booking.trainClass" (change)="onClassChange()">
                   <option selected disabled>Select train class</option>
-                  <option value="first">First Class</option>
-                  <option value="second">Second Class</option>
-                  <option value="sleeper">Sleeper Class</option>
-                  <option value="ac">AC Class</option>
+                  <option value="First">First Class</option>
+                  <option value="Second">Second Class</option>
+                  <option value="ac">3AC </option>
+                  <option value="Sleeper">Sleeper Class</option>
+                  <option value="Tatkal">Tatkal</option>
                 </select>
               </div>
     
          <div class=" col-6 mb-3">
-           <label for="fullName" class="form-label">Enter Age</label>
-           <input type="text" class="form-control" name="age" required maxLength="2" placeholder="Enter your age">
+           <label for="age" class="form-label text-dark">Enter Age</label>
+           <input type="text" class="form-control" name="age" required maxLength="2" placeholder="Enter your age" [(ngModel)]="booking.age">
          </div>
     
          </div> 
     
-          <!-- Departure and Arrival Stations -->
           <div class="row mb-3">
             <div class="col-md-6"> 
-              <label for="departureStation" class="form-label">Departure Station</label>
-              <input type="text" class="form-control" name="departureStation" placeholder="Enter departure station">
+              <label for="departureStation" class="form-label text-dark">Departure Station</label>
+              <input type="text" class="form-control" name="departureStation" placeholder="Enter departure station" required [(ngModel)]="booking.departureStation"> 
             </div>
             <div class="col-md-6">
               <label for="arrivalStation" class="form-label">Arrival Station</label>
-              <input type="text" class="form-control" name="arrivalStation" placeholder="Enter arrival station" >
+              <input type="text" class="form-control" name="arrivalStation" placeholder="Enter arrival station" required [(ngModel)]="booking.arrivalStation">
             </div>
           </div>
     
           <div class="row mb-3">
             <div class="col-md-6">
-              <label for="departureStation" class="form-label">Total Fare</label>
-              <input type="text" class="form-control" name="totalFare"  id="totalFare" >
+            <label for="totalFare" class="form-label">Total Fare</label>
+              <input type="text" class="form-control" name="totalFare"  id="totalFare" required [(ngModel)]="booking.totalFare">
             </div>
       
           </div>
-    
-          <!-- Submit Button -->
-           <div class="row">
+
+          <div class="row">
             <div class="col-6">
-                 <button class="btn btn-primary mx-3" type="submit">Proceed to Pay</button>
+                 <button class="btn btn-primary mx-3" type="submit" [disabled]="bookingForm.invalid">Proceed to Pay</button>
+                 <button class="btn btn-primary mx-3" type="button" [disabled]="bookingForm.invalid" (click)="addPassenger(bookingForm.value)">Add Passenger</button>
             </div>
            </div>
         </form>
+       
       </div> 
     </div> 
-   
+  </div>
+
+
+
+  <div *ngIf="showtablePassengerDetails">
+    <form #morebookingForm="ngForm" (ngSubmit)="addPassengers(morebookingForm.value)">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Train Class</th>
+            <th>Age</th>
+            <th>Departure Station</th>
+            <th>Arrival Station</th>
+            <th>Total Fare</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- <tr *ngFor="let item of combinedBookingData">
+            <td>{{ item.fullName }}</td>
+            <td>{{ item.trainClass }}</td>
+            <td>{{ item.age }}</td>
+            <td>{{ item.departureStation }}</td>
+            <td>{{ item.arrivalStation }}</td>
+            <td>{{ item.totalFare }}</td>
+          </tr>
+   -->
+          <tr *ngFor="let passenger of newPassengers; let i = index">
+            <td>
+              <input type="text" class="form-control" name="fullName{{ i }}" [(ngModel)]="passenger.fullName" placeholder="Full Name" required>
+            </td>
+            <td>
+              <select class="form-select" name="trainClass{{ i }}" [(ngModel)]="passenger.trainClass"  (change)="onChange(passenger)" required>
+                <option disabled selected>Select train class</option>
+                <option value="First">First Class</option>
+                <option value="Second">Second Class</option>
+                <option value="Sleeper">Sleeper Class</option>
+                <option value="ac">3AC</option>
+                <!-- <option value="Tatkal">Tatkal</option> -->
+              </select>
+            </td>
+            <td>
+              <input type="text" class="form-control" name="age{{ i }}" [(ngModel)]="passenger.age" placeholder="Age" required>
+            </td>
+            <td>
+              <input type="text" class="form-control" name="departureStation{{ i }}" [(ngModel)]="passenger.departureStation" placeholder="Departure Station" required>
+            </td>
+            <td>
+              <input type="text" class="form-control" name="arrivalStation{{ i }}" [(ngModel)]="passenger.arrivalStation" placeholder="Arrival Station" required>
+            </td>
+            <td>
+              <input type="text" class="form-control" name="totalFare{{ i }}" [(ngModel)]="passenger.totalFare" placeholder="Total Fare" required>
+            </td>
+            <td>
+              <button  class="btn btn-danger btn-sm mt-2" click="removepassengerDetails(i)">remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-primary mt-1 mx-2" [class.disabled]="morebookingForm.invalid" (click)="addMoreFields()">Add More</button>
+      <button class="btn btn-success mt-1 mx-2" type="submit" [disabled]="morebookingForm.invalid">Save All</button>
+      <button class="btn btn-success mt-1 mx-2" type="button" (click)="BacktoBooking()">Back</button>
+    </form>
+  </div>
+  
+
+  <div class="conatiner" *ngIf="showAllbookingDetails">
+    <table class="table">
+      <thead>
+          <tr>
+            <th>Full Name</th>
+            <th>Train Class</th>
+            <th>Age</th>
+            <th>Departure Station</th>
+            <th>Arrival Station</th>
+            <th>Fare</th>
+            <th>Action</th>
+          </tr>
+      </thead>
+ <tbody>
+          <tr *ngFor="let item of combinedBookingData, let i = index" >
+           <td>{{item.fullName}}</td>
+           <td>{{item.trainClass}}</td>
+           <td>{{item.age}}</td>
+           <td>{{item.departureStation}}</td>
+           <td>{{item.arrivalStation}}</td>
+           <td>{{item.totalFare}}</td>  
+           <td>
+            <button class="btn btn-danger btn-sm mx-1" (click)="deletePassengerData(i)">Delete</button>
+           </td>    
+          </tr>
+ </tbody>
+ <button type="button" class="btn btn-primary btn-sm mx-2 mt-2" (click)="BackButton()">Back</button>
+ <button type="button" class="btn btn-primary btn-sm mx-2 mt-2" (click)="ProceedforPayment()">Save & Prpceed</button>
+</table>
+<div class="float-end mt-2 mx-5"> 
+  <div>
+    Total Fare: {{ total }}
+  </div>
+</div>
   </div>

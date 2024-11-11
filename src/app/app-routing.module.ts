@@ -5,12 +5,14 @@ import { PageNotFoundComponent } from './user/page-not-found/page-not-found.comp
 import { TicketBookingComponent } from './user/ticket-booking/ticket-booking.component';
 import { LoginComponent } from './user/login/login.component';
 import { AuthGuard } from './auth.guard';
+import { PaymentDetailsComponent } from './user/payment-details/payment-details.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'login',pathMatch:'full'},
   {path:'login',component:LoginComponent},
   {path:'home',component:HomeComponent,canActivate: [AuthGuard]},
   {path:'ticket_booking',component:TicketBookingComponent,canActivate: [AuthGuard]},
+  {path:'paymentdetails',component:PaymentDetailsComponent},
   {path:'**',component:PageNotFoundComponent}
 
 ];
